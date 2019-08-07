@@ -14,8 +14,11 @@ public class Main : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        mUnityAcvity = new AndroidJavaClass("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity");
-        mUnityAcvity.Call("initSurface");
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            mUnityAcvity = new AndroidJavaClass("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity");
+            mUnityAcvity.Call("initSurface");
+        }
     }
 
     // Update is called once per frame
@@ -26,7 +29,10 @@ public class Main : MonoBehaviour
 
     public void UpdateTexImage()
     {
-        mUnityAcvity.Call("updateTexImage");
+        if (Application.platform == RuntimePlatform.Android && mUnityAcvity != null)
+        {
+            mUnityAcvity.Call("updateTexImage");
+        }
     }
 
 }
